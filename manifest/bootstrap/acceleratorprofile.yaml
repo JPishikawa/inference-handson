@@ -3,9 +3,6 @@ kind: AcceleratorProfile
 metadata:
   name: nvidia-gpu
   namespace: redhat-ods-applications
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
-    argocd.argoproj.io/hook: PostSync
 spec:
   description: ""
   displayName: NVIDIA GPU
