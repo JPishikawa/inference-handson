@@ -27,7 +27,7 @@ do
   oc new-project "${RESOURCE_NAME}"
   oc label namespace "${RESOURCE_NAME}" opendatahub.io/dashboard='true'
   oc adm policy add-role-to-user admin "${RESOURCE_NAME}" -n "${RESOURCE_NAME}"
-  oc adm policy add-scc-to-user -z default -n "${RESOURCE_NAME}"
+  oc adm policy add-scc-to-user -z default anyuid -n "${RESOURCE_NAME}"
   sleep 3
   oc apply -f manifest/bootstrap/dataconnection.yaml
   oc apply -f manifest/openwebui/openwebui.yaml 
