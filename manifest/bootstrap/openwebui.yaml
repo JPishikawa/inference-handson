@@ -69,7 +69,6 @@ kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
   name: open-webui
-  namespace: app-webui
 spec:
   to:
     kind: Service
