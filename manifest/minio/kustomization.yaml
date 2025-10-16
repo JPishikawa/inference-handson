@@ -6,6 +6,4 @@ commonLabels:
   component: nvidia-gpu-operator
 resources:
 - namespace.yaml
-- operatorgroup.yaml
-- gpu-operator-certified.yaml
-- clusterpolicy.yaml
+- minio.yaml

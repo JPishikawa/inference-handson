@@ -6,8 +6,5 @@ commonLabels:
   component: openshift-gitops
 resources:
 - job-bootstrap.yaml
-- cronjob-copy-repo-creds.yaml
 - job-disable-openshift-ai-serverless-mode.yaml
-- job-add-argocd-custom-healthcheck.yaml
-- application-toolhive-crds.yaml
-- application-toolhive-operator.yaml  
+ 
