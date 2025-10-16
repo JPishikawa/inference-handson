@@ -9,5 +9,3 @@ resources:
   - operatorgroup.yaml
   - rhods-operator.yaml
   - datasciencecluster.yaml
-  - imagestream.yaml
-  - acceleratorprofile.yaml
