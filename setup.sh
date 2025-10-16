@@ -24,7 +24,9 @@ MAX_USERS=${1:-10}
 for (( i=1; i<=${MAX_USERS}; i++ ))
 do
   RESOURCE_NAME="user${i}"
-  oc new-project "${RESOURCE_NAME}"
+  if ! oc get project "${RESOURCE_NAME}" &> /dev/null; then
+    oc new-project "${RESOURCE_NAME}"
+  fi
   oc label namespace "${RESOURCE_NAME}" opendatahub.io/dashboard='true'
   oc adm policy add-role-to-user admin "${RESOURCE_NAME}" -n "${RESOURCE_NAME}"
   oc adm policy add-scc-to-user -z default anyuid -n "${RESOURCE_NAME}"
