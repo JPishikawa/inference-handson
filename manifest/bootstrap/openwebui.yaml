@@ -72,6 +72,7 @@ metadata:
 spec:
   to:
     kind: Service
+    name: open-webui
     weight: 100
   port:
     targetPort: 8080-tcp
