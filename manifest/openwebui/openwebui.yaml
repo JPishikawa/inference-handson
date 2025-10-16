@@ -1,0 +1,93 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: open-webui
+  labels:
+    app: open-webui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: open-webui
+  template:
+    metadata:
+      labels:
+        app: open-webui
+        deployment: open-webui
+    spec:
+      containers:
+        - name: open-webui
+          image: "ghcr.io/open-webui/open-webui:main"
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: open-webui
+          env:
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: data-volume
+              mountPath: /app/backend/data
+              readOnly: false
+      volumes:
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: openwebui-pvc
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: openwebui-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  volumeMode: Filesystem
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: open-webui
+  labels:
+    app: open-webui
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+  selector:
+    app: open-webui
+    deployment: open-webui
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: open-webui
+  namespace: app-webui
+spec:
+  to:
+    kind: Service
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  wildcardPolicy: None
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: open-webui
+data:
+  WEBUI_AUTH: "False"
+  OPENAI_API_BASE_URLS: "https://URL/v1"
+  OPENAI_API_KEYS: na
+  ENABLE_RAG_HYBRID_SEARCH: "True"
+  ENABLE_VERSION_UPDATE_CHECK: "False"

@@ -1,0 +1,13 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: openshift-gitops
+commonLabels:
+  component: openshift-gitops
+resources:
+- job-bootstrap.yaml
+- cronjob-copy-repo-creds.yaml
+- job-disable-openshift-ai-serverless-mode.yaml
+- job-add-argocd-custom-healthcheck.yaml
+- application-toolhive-crds.yaml
+- application-toolhive-operator.yaml  

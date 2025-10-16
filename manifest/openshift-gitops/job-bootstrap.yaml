@@ -1,0 +1,66 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: bootstrap
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      serviceAccount: openshift-gitops-argocd-application-controller
+      serviceAccountName: openshift-gitops-argocd-application-controller
+      containers:
+      - name: bootstrap
+        image: registry.redhat.io/openshift4/ose-cli-rhel9:latest
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+        command: ["/bin/bash"]
+        args:
+        - -c
+        - |-
+
+          oc patch schedulers.config.openshift.io cluster --type=json -p='[{"op": "replace", "path": "/spec/mastersSchedulable", "value": false}]'
+
+          MACHINESET_REPLICAS=1
+          GPU_MACHINESET_REPLICAS=1
+          GPU_MACHINESET_INSTANCE_TYPE=g6e.xlarge
+
+          machineset="$(oc get machineset -o jsonpath='{.items[0].metadata.name}' -n openshift-machine-api)"
+          machineset_gpu="${machineset}-gpu"
+
+          oc get machineset/${machineset_gpu} -n openshift-machine-api >/dev/null 2>&1
+          if [ $? -eq 0 ]; then
+            exit
+          fi
+
+          oc scale machineset/${machineset} -n openshift-machine-api --replicas=${MACHINESET_REPLICAS}
+          oc get machineset/${machineset} -o yaml -n openshift-machine-api | \
+          sed -e "s/${machineset}/${machineset_gpu}/g" | \
+          sed -e "s/instanceType: .*/instanceType: ${GPU_MACHINESET_INSTANCE_TYPE}/g" | \
+          sed -e "s/replicas: .*/replicas: ${GPU_MACHINESET_REPLICAS}/g" | \
+          sed -e 's|^      providerSpec:.*|      taints:\n      - key: "nvidia.com/gpu"\n        value: ""\n        effect: "NoSchedule"\n      providerSpec:|g' | \
+          sed -e 's|^      metadata:.*|      metadata:\n        labels:\n          workload-type: gpu|g' | \
+          oc apply -f -
+
+          while true; do
+            oc get machineset/${machineset_gpu} -n openshift-machine-api 2>&1 | grep "not found" 1>/dev/null 2>&1
+            if [ $? -eq 0 ]; then
+              sleep 3
+              continue
+            else
+              break
+            fi
+          done
+
+          oc wait --for jsonpath='{.status.availableReplicas}'=${MACHINESET_REPLICAS} --timeout 20m machineset/${machineset} -n openshift-machine-api
+          oc wait --for jsonpath='{.status.availableReplicas}'=${GPU_MACHINESET_REPLICAS} --timeout 30m machineset/${machineset_gpu} -n openshift-machine-api
+      restartPolicy: Never

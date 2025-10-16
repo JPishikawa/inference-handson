@@ -1,0 +1,19 @@
+kind: Secret
+apiVersion: v1
+metadata:
+  name: minio
+  labels:
+    opendatahub.io/dashboard: "true"
+    opendatahub.io/managed: "true"
+  annotations:
+    opendatahub.io/connection-type: s3
+    opendatahub.io/connection-type-ref: s3
+    openshift.io/description: ""
+    openshift.io/display-name: minio
+stringData:
+  AWS_ACCESS_KEY_ID: minio
+  AWS_DEFAULT_REGION: na
+  AWS_S3_BUCKET: llm-bucket
+  AWS_S3_ENDPOINT: http://minio-service.minio.svc.cluster.local:9000
+  AWS_SECRET_ACCESS_KEY: minio123
+type: Opaque
