@@ -14,6 +14,6 @@ stringData:
   AWS_ACCESS_KEY_ID: minio
   AWS_DEFAULT_REGION: na
   AWS_S3_BUCKET: llm-bucket
-  AWS_S3_ENDPOINT: http://minio-service.minio.svc.cluster.local:9000
+  AWS_S3_ENDPOINT: http://minio-service:9000
   AWS_SECRET_ACCESS_KEY: minio123
 type: Opaque

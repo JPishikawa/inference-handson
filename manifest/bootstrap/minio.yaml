@@ -10,7 +10,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 500Gi
+      storage: 30Gi
   volumeMode: Filesystem
 ---
 kind: Secret

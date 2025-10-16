@@ -24,11 +24,6 @@ spec:
             targetRevision: main
             path: manifest/openshift-nfd
           - cluster: in-cluster
-            name: minio
-            repoURL: https://github.com/JPishikawa/inference-handson.git
-            targetRevision: main
-            path: manifest/minio
-          - cluster: in-cluster
             name: oauth
             repoURL: https://github.com/JPishikawa/inference-handson.git
             targetRevision: main
