@@ -38,7 +38,7 @@ done
 machineset="$(oc get machineset -o jsonpath='{.items[0].metadata.name}' -n openshift-machine-api)"
 machineset_gpu="${machineset}-gpu"
 oc scale machineset/${machineset_gpu} --replicas ${MAX_USERS} -n openshift-machine-api
-
+oc apply -f ../redhat-ods-operator/acceleratorprofile.yaml
 TARGET_STATUS="analysis-agent Synced Healthy nvidia-gpu-operator Synced Healthy openshift-gitops Synced Healthy openshift-nfd Synced Healthy openshift-storage Synced Healthy redhat-ods-operator Synced Healthy stackable-operators Synced Healthy toolhive-crds Synced Healthy toolhive-operator Synced Healthy toolhive-system Synced Healthy"
 
 echo ""

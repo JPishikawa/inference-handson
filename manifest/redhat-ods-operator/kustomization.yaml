@@ -10,4 +10,4 @@ resources:
   - rhods-operator.yaml
   - datasciencecluster.yaml
   - imagestream.yaml
-  - acceleratorprofile.yaml
+  #- acceleratorprofile.yaml
