@@ -6,8 +6,5 @@ commonLabels:
   component: redhat-ods-operator
 resources:
   - namespace.yaml
-  - operatorgroup.yaml
-  - rhods-operator.yaml
-  - datasciencecluster.yaml
   - imagestream.yaml
   - acceleratorprofile.yaml
