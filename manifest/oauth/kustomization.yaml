@@ -1,9 +1,9 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: nvidia-gpu-operator
+namespace: openshift-config
 commonLabels:
-  component: nvidia-gpu-operator
+  component: oauth
 resources:
   - htpasswd.yaml
   - oauth.yaml
