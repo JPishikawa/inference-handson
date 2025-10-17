@@ -7,3 +7,4 @@ commonLabels:
 resources:
   - job-bootstrap.yaml
   - job-disable-openshift-ai-serverless-mode.yaml
+  - job-add-argocd-custom-healthcheck.yaml
