@@ -10,4 +10,7 @@ spec:
   displayName: NVIDIA GPU
   enabled: true
   identifier: nvidia.com/gpu
-  tolerations: []
+  tolerations:
+    - effect: NoSchedule
+      key: nvidia.com/gpu
+      operator: Exists

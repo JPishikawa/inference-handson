@@ -20,7 +20,8 @@ echo ""
 oc apply -f secret-repo-creds.yaml
 oc apply -f applicationset.yaml
 
-MAX_USERS=${1:-10}
+sleep 30
+MAX_USERS=${1:-5}
 for (( i=1; i<=${MAX_USERS}; i++ ))
 do
   RESOURCE_NAME="user${i}"
@@ -29,6 +30,7 @@ do
   fi
   oc label namespace "${RESOURCE_NAME}" opendatahub.io/dashboard='true'
   oc adm policy add-role-to-user admin "${RESOURCE_NAME}" -n "${RESOURCE_NAME}"
+  oc adm policy add-role-to-user admin "${RESOURCE_NAME}" -n llm-serving
   oc adm policy add-scc-to-user -z default anyuid -n "${RESOURCE_NAME}"
   sleep 3
   oc apply -f minio.yaml
@@ -38,6 +40,9 @@ done
 
 machineset="$(oc get machineset -o jsonpath='{.items[0].metadata.name}' -n openshift-machine-api)"
 machineset_gpu="${machineset}-gpu"
+if ! oc get machineset/${machineset_gpu} -n openshift-machine-api &> /dev/null; then
+  sleep 20
+fi
 oc scale machineset/${machineset_gpu} --replicas ${MAX_USERS} -n openshift-machine-api
 #oc apply -f acceleratorprofile.yaml
 TARGET_STATUS="analysis-agent Synced Healthy nvidia-gpu-operator Synced Healthy openshift-gitops Synced Healthy openshift-nfd Synced Healthy openshift-storage Synced Healthy redhat-ods-operator Synced Healthy stackable-operators Synced Healthy toolhive-crds Synced Healthy toolhive-operator Synced Healthy toolhive-system Synced Healthy"

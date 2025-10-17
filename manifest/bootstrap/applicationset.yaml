@@ -38,6 +38,11 @@ spec:
             repoURL: https://github.com/JPishikawa/inference-handson.git
             targetRevision: main
             path: manifest/redhat-ods-applications
+          - cluster: in-cluster
+            name: llm-serving
+            repoURL: https://github.com/JPishikawa/inference-handson.git
+            targetRevision: main
+            path: manifest/llm-serving
   template:
     metadata:
       name: "{{name}}"

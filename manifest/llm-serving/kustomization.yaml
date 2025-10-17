@@ -1,0 +1,12 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: llm-serving
+commonLabels:
+  component: llm-serving
+resources:
+  - inferenceservice.yaml
+  - job-download-model-llm.yaml
+  - namespace.yaml
+  - pvc-model-storage-llm.yaml
+  - servingruntime.yaml

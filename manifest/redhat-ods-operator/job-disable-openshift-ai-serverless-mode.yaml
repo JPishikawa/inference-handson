@@ -1,0 +1,33 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: disable-openshift-ai-serverless-mode
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      serviceAccount: openshift-gitops-argocd-application-controller
+      serviceAccountName: openshift-gitops-argocd-application-controller
+      containers:
+        - name: disable-openshift-ai-serverless-mode
+          image: registry.redhat.io/openshift4/ose-cli-rhel9:latest
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
+          command: ["/bin/bash"]
+          args:
+            - -c
+            - |-
+              set -e
+              sleep 180
+              oc patch dsci/default-dsci --type='merge' -p '{"spec":{"serviceMesh":{"managementState":"Removed"}}}' 2>/dev/null
+      restartPolicy: Never
