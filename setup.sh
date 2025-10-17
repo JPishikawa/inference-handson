@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 cd manifest/bootstrap
 oc apply -f openshift-gitops-operator.yaml
 
