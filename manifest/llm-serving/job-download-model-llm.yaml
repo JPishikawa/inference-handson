@@ -23,11 +23,6 @@ spec:
               cp -L -r ${model_dir} /mnt/model
               sync
           # For a simple one-gpu node demo only. This should be removed and a Object Storage, or RWX storage should be used to bind the model-storage to the nodes for model-loading and inferencing.
-          resources:
-            limits:
-              nvidia.com/gpu: "1"
-            requests:
-              nvidia.com/gpu: "1"
           volumeMounts:
             - name: model-storage-llm
               mountPath: /mnt
@@ -36,8 +31,4 @@ spec:
           persistentVolumeClaim:
             claimName: model-storage-llm
       # For a simple one-gpu node demo only. This should be removed and a Object Storage, or RWX storage should be used to bind the model-storage to the nodes for model-loading and inferencing.
-      tolerations:
-        - effect: NoSchedule
-          key: nvidia.com/gpu
-          operator: Exists
       restartPolicy: Never
