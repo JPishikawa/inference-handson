@@ -9,6 +9,8 @@ spec:
   backoffLimit: 4
   template:
     spec:
+      serviceAccount: openshift-gitops-argocd-application-controller
+      serviceAccountName: openshift-gitops-argocd-application-controller
       containers:
         - name: disable-openshift-ai-serverless-mode
           image: registry.redhat.io/openshift4/ose-cli-rhel9:latest

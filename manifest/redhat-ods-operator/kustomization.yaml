@@ -9,4 +9,3 @@ resources:
   - operatorgroup.yaml
   - rhods-operator.yaml
   - datasciencecluster.yaml
-  - job-disable-openshift-ai-serverless-mode.yaml
