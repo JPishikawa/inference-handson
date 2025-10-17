@@ -5,6 +5,4 @@ namespace: openshift-gitops
 commonLabels:
   component: openshift-gitops
 resources:
-- job-bootstrap.yaml
-- job-disable-openshift-ai-serverless-mode.yaml
- 
+  - job-bootstrap.yaml
