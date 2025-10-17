@@ -96,19 +96,16 @@ Waiting for OpenShift GitOps operator being ready......clusterserviceversion.ope
 secret/repo-creds created
 applicationset.argoproj.io/bootstrap created
 
-!!! If you can't get a g6e.xlarge instance, this setup script won't finish. !!!
+!!! If you can't get enough g6.xlarge instance, this setup script won't finish. !!!
 !!! If it doesn't finish after more than an hour, run 'oc get machine -A'   !!!
 !!! to check if the instance is being provisioned.                          !!!
 
-Waiting for the environment being ready. it may take 30-40 minutes...............................................................................................................................................................................................................................
+Waiting for the environment being ready. it may take 30-40 minutes................................................................................................................
 The environment is ready.
 
 
-[Query application URL]
-https://app-query-analysis-agent.apps.cluster-559lc.559lc.sandbox185.opentlc.com/
-
-[Knowledge injection maintenance URL]
-https://knowledge-injection-analysis-agent.apps.cluster-559lc.559lc.sandbox185.opentlc.com/
+[OpenShift AI Console URL]
+https://rhods-dashboard-redhat-ods-applications.apps.DOMAIN/
 ```
 
 
