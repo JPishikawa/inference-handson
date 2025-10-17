@@ -1,6 +1,5 @@
 ## How to install
 
-You can install it with just a few steps.  
 
 ### Step 1: Provision AWS with OpenShift Open Environment in RHDP
 
@@ -35,30 +34,30 @@ lab-user@bastion.559lc.sandbox185.opentlc.com's password:<lab-user's password gi
 ## Step 3: Clone the Repository  
 
 ```shell
-git clone https://git:<YOUR_GITLAB_ACCESS_TOKEN>@gitlab.consulting.redhat.com/mmuraki/analysis-agent.git
+git clone https://github.com/JPishikawa/inference-handson
 ```
 
 You should see output similar to this:  
 
 ```
-[lab-user@bastion ~]$ git clone https://git:<YOUR_GITLAB_ACCESS_TOKEN>@gitlab.consulting.redhat.com/mmuraki/analysis-agent.git
-Cloning into 'analysis-agent'...
-remote: Enumerating objects: 706, done.
-remote: Counting objects: 100% (19/19), done.
-remote: Compressing objects: 100% (19/19), done.
-remote: Total 706 (delta 7), reused 0 (delta 0), pack-reused 687 (from 1)
-Receiving objects: 100% (706/706), 691.46 KiB | 8.54 MiB/s, done.
-Resolving deltas: 100% (45/45), done.
+[lab-user@bastion ~]$ git clone https://github.com/JPishikawa/inference-handson
+Cloning into 'inference-handson'...
+remote: Enumerating objects: 201, done.
+remote: Counting objects: 100% (201/201), done.
+remote: Compressing objects: 100% (127/127), done.
+remote: Total 201 (delta 114), reused 157 (delta 72), pack-reused 0 (from 0)
+Receiving objects: 100% (201/201), 32.65 KiB | 4.66 MiB/s, done.
+Resolving deltas: 100% (114/114), done.
 ```
 
 ## Step 4: Set your YOUR_GITLAB_ACCESS_TOKEN
 
 ```shell
-cd analysis-agent/
-vim manifest/bootstrap/secret-repo-creds.yaml 
+cd inference-handson/
+vi manifest/bootstrap/secret-repo-creds.yaml 
 ```
 
-You need to replace `YOUR_GITLAB_ACCESS_TOKEN` in `manifest/bootstrap/secret-repo-creds.yaml` with your GitLab access token.  
+You need to replace `YOUR_GITHUB_ACCESS_TOKEN` in `manifest/bootstrap/secret-repo-creds.yaml` with your GitHub access token.  
 
 ```
 ---
@@ -71,15 +70,16 @@ metadata:
     argocd.argoproj.io/secret-type: repo-creds
 stringData:
   type: git
-  url: https://gitlab.consulting.redhat.com/mmuraki/analysis-agent.git
-  password: YOUR_GITLAB_ACCESS_TOKEN
+  url: https://github.com/JPishikawa/inference-handson.git
+  password: YOUR_GITHUB_ACCESS_TOKEN
   username: git
 ```
 
 ## Step 5: Run setup.sh
+You can pass the number of hands-on user as an argument to the setup script. The default is for 5 users.
 
 ```shell
-./setup.sh
+./setup.sh 5
 ```
 
 It takes a little long, almost 30-40 minutes.  

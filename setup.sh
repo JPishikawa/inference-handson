@@ -51,7 +51,7 @@ done
 
 oc scale machineset/${machineset_gpu} --replicas ${MAX_USERS} -n openshift-machine-api
 #oc apply -f acceleratorprofile.yaml
-TARGET_STATUS="analysis-agent Synced Healthy nvidia-gpu-operator Synced Healthy openshift-gitops Synced Healthy openshift-nfd Synced Healthy openshift-storage Synced Healthy redhat-ods-operator Synced Healthy stackable-operators Synced Healthy toolhive-crds Synced Healthy toolhive-operator Synced Healthy toolhive-system Synced Healthy"
+TARGET_STATUS="llm-serving Synced Healthy nvidia-gpu-operator Synced Healthy oauth OutOfSync Healthy openshift-gitops Synced Healthy openshift-nfd Synced Healthy redhat-ods-applications Synced Healthy redhat-ods-operator Synced Healthy"
 
 echo ""
 echo "!!! If you can't get enough g6.xlarge instance, this setup script won't finish. !!!"
@@ -59,14 +59,14 @@ echo "!!! If it doesn't finish after more than an hour, run 'oc get machine -A' 
 echo "!!! to check if the instance is being provisioned.                          !!!"
 echo ""
 echo -n "Waiting for the environment being ready. it may take 30-40 minutes.."
-#while true; do
-#  echo -n "."
-#  status="$(echo $(oc get application.argoproj.io --no-headers -n openshift-gitops 2>/dev/null))"
-#  if [ "${status}" == "${TARGET_STATUS}" ]; then
-#    break
-#  fi
-#  sleep 10
-#done
+while true; do
+  echo -n "."
+  status="$(echo $(oc get application.argoproj.io --no-headers -n openshift-gitops 2>/dev/null))"
+  if [ "${status}" == "${TARGET_STATUS}" ]; then
+    break
+  fi
+  sleep 10
+done
 
 echo ""
 echo "The environment is ready."
